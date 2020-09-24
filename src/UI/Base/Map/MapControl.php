@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\UI\Base\Map;
+
+use Nette\Application\Responses\JsonResponse;
+use Nette\Application\UI\Control;
+
+class MapControl extends Control
+{
+	private IMapObjectProvider $mapObjectProvider;
+
+	private string $mapApiKey;
+
+	public function __construct(string $mapApiKey, IMapObjectProvider $mapObjectProvider)
+	{
+		$this->mapObjectProvider = $mapObjectProvider;
+		$this->mapApiKey = $mapApiKey;
+	}
+
+	public function render(): void
+	{
+		$this->getTemplate()->mapApiKey = $this->mapApiKey;
+		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
+		$this->getTemplate()->render();
+	}
+
+	public function handleGetMapObjects(): void
+	{
+		$response = new JsonResponse($this->mapObjectProvider->getMapObjects());
+		$this->getPresenter()->sendResponse($response);
+	}
+}

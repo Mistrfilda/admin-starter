@@ -1,0 +1,34 @@
+{
+	"name": "public-transport-app",
+	"license": "MIT",
+	"devDependencies": {
+		"@symfony/webpack-encore": "^0.30.1",
+		"babel-eslint": "^10.0.1",
+		"core-js": "^3.6.4",
+		"eslint": "^6.8.0",
+		"eslint-loader": "^2.1.2",
+		"node-sass": "^4.13.1",
+		"regenerator-runtime": "^0.13.5",
+		"sass-loader": "^8.0.0",
+		"webpack-notifier": "^1.6.0"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^5.12.1",
+		"@google/markerclustererplus": "^5.0.3",
+		"bootstrap": "^4.4.1",
+		"bootstrap-datepicker": "^1.9.0",
+		"bootstrap-select": "^1.13.12",
+		"chart.js": "^2.9.3",
+		"dotenv": "^8.2.0",
+		"jquery": "^3.5.0",
+		"live-form-validation": "https://github.com/contributte/live-form-validation#master",
+		"naja": "^1.7.0",
+		"nette-forms": "^3.0.3",
+		"popper.js": "^1.16.1",
+		"ublaboo-datagrid": "^6.2.6"
+	},
+	"resolutions": {
+		"minimist": "^1.2.3",
+		"websocket-extensions": "^0.1.4"
+	}
+}

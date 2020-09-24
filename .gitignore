@@ -1,0 +1,11 @@
+vendor/*
+config/config.local.neon
+.idea/
+
+www/build/*
+yarn-error.log
+
+node_modules/*
+
+tests/Integration/config/tests.local.neon
+tests/log/*

@@ -1,0 +1,131 @@
+parameters:
+	map:
+		apiToken: ""
+
+application:
+	errorPresenter: Error:Error
+	mapping:
+		*: ['App\UI', '*', '*\*Presenter']
+		Error: App\UI\Error\*Presenter
+
+tracy:
+	maxDepth: 6
+	showLocation: true
+
+
+session:
+	expiration: 14 days
+
+decorator:
+
+
+extensions:
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	dbal: Nettrine\DBAL\DI\DbalExtension
+	dbal.console: Nettrine\DBAL\DI\DbalConsoleExtension
+	orm: Nettrine\ORM\DI\OrmExtension
+	nettrine.annotations: Nettrine\Annotations\DI\AnnotationsExtension
+	orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
+	orm.console: Nettrine\ORM\DI\OrmConsoleExtension
+	migrations: Nettrine\Migrations\DI\MigrationsExtension
+	orm.cache: Nettrine\Cache\DI\CacheExtension
+	monolog: Contributte\Monolog\DI\MonologExtension
+
+	webpackassets: App\UI\Webpack\DI\WebpackAssetExtension
+	custompresenterfactory: App\UI\Base\PresenterFactory\DI\CustomPresenterFactoryExtension
+
+webpackassets:
+	buildedAssetsDir: %wwwDir%/build
+
+
+dbal:
+	debug:
+		panel: %debugMode%
+	connection:
+		host: %database.host%
+		user: %database.user%
+		password: %database.password%
+		dbname: %database.dbname%
+		driver: 'pdo_mysql'
+
+		types:
+			uuid:
+				class: Ramsey\Uuid\Doctrine\UuidType
+				commented: false
+
+orm:
+	configuration:
+		customStringFunctions:
+			group_concat: DoctrineExtensions\Query\Mysql\GroupConcat
+
+orm.annotations:
+	mapping:
+		App: %appDir%
+
+migrations:
+    table: doctrine_migrations
+    column: version
+    directory: %appDir%/../migrations
+    namespace: Migrations
+
+console:
+    url: http://localhost/weekeng-league-tournament/www
+    catchExceptions: false
+    lazy: false
+
+monolog:
+	channel:
+		default:
+			handlers:
+				- Monolog\Handler\RotatingFileHandler(%appDir%/../log/app-log.log, 30)
+				- Monolog\Handler\StreamHandler("php://stdout")
+			processors:
+				- Monolog\Processor\MemoryPeakUsageProcessor()
+				- Monolog\Processor\WebProcessor()
+				- Monolog\Processor\IntrospectionProcessor()
+
+
+services:
+	router: App\Router\RouterFactory::createRouter
+
+	latte.latteFactory:
+		setup:
+			- addFilter(datetimeFormat, [@datetimeFormatFilter, format])
+			- addFilter(secondsFormat, [@secondsFormatFilter, format])
+			- addFilter(nullablestring, [@nullableStringFilter, format])
+
+	#CUSTOM LATTE FILTERS
+	datetimeFormatFilter: App\UI\Base\Filter\DatetimeFormatFilter
+	secondsFormatFilter: App\UI\Base\Filter\SecondsFormatFilter
+	nullableStringFilter: App\UI\Base\Filter\NullableStringFilter
+
+	#UTILS
+	datetimefactory: App\Utils\Datetime\DatetimeFactory
+	czechHolidayService: App\Utils\Datetime\CzechHolidayService
+
+	#Map
+	map:
+		implement: App\UI\Base\Map\MapControlFactory
+		arguments: [%map.apiToken%]
+
+	#Chart
+	chartFactory: App\UI\Base\Chart\Control\ChartControlFactory
+
+	#Forms
+	- App\UI\Base\Control\AdminFormFactory
+
+	#Grids
+	- App\UI\Base\Control\AdminDatagridFactory
+
+	#Modal
+	- App\UI\Base\Modal\ModalRendererControlFactory
+
+	#AppAdmin
+	- App\AppAdmin\AppAdminRepository(App\AppAdmin\AppAdmin)
+	- App\AppAdmin\AppAdminAuthenticator
+	- App\AppAdmin\AppAdminFacade
+	- App\AppAdmin\CurrentAppAdminGetter
+	- App\AppAdmin\Command\CreateAppAdminCommand
+
+	#Login
+	- App\UI\Login\Form\LoginFormFactory

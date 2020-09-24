@@ -1,0 +1,103 @@
+{
+	"name": "mistrfilda/weekend-league-tournament",
+	"description": "Simple weekend league tournament",
+	"keywords": ["nette"],
+	"type": "project",
+	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"require": {
+		"php": ">= 7.4",
+		"ext-json": "*",
+		"nette/application": "^3.0",
+		"nette/bootstrap": "^3.0",
+		"nette/caching": "^3.0",
+		"nette/di": "^3.0",
+		"nette/finder": "^2.5",
+		"nette/forms": "^3.0",
+		"nette/http": "^3.0",
+		"nette/mail": "^3.0",
+		"nette/robot-loader": "^3.0",
+		"nette/security": "^3.0",
+		"nette/utils": "^3.0",
+		"latte/latte": "^2.7",
+		"tracy/tracy": "^2.6",
+		"contributte/console": "^0.8",
+		"nettrine/orm": "^0.7",
+		"nettrine/dbal": "^0.6",
+		"nettrine/migrations": "^0.6",
+		"nettrine/cache": "^0.2",
+		"nettrine/annotations": "^0.6",
+		"ramsey/uuid-doctrine": "^1.6",
+		"contributte/monolog": "^0.4.1",
+		"ublaboo/datagrid": "^6.2",
+		"beberlei/doctrineextensions": "^1.2"
+	},
+	"require-dev": {
+		"nette/tester": "^2.3",
+		"phpstan/phpstan": "^0.12",
+		"phpstan/extension-installer": "^1.0",
+		"phpstan/phpstan-strict-rules": "^0.12",
+		"phpstan/phpstan-nette": "^0.12",
+		"phpstan/phpstan-doctrine": "^0.12",
+		"phpstan/phpstan-mockery": "^0.12",
+		"phpstan/phpstan-deprecation-rules": "^0.12.4",
+		"mockery/mockery": "^1.2",
+		"symplify/easy-coding-standard-prefixed": "~7.2.0",
+		"roave/security-advisories": "dev-master",
+		"php-parallel-lint/php-parallel-lint": "^1.2",
+		"php-parallel-lint/php-console-highlighter": "^0.5.0"
+	},
+	"scripts": {
+		"comload": "composer dump-autoload -o",
+		"stan": "vendor/bin/phpstan analyse -l max -c phpstan.neon src tests --ansi",
+		"clear-stan-cache": "vendor/bin/phpstan clear-result-cache",
+		"clear-stan": [
+			"@clear-stan-cache",
+			"@stan"
+		],
+		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
+		"cs": "vendor/bin/ecs -c ecs.yaml check src tests --ansi",
+		"cs-fix": "vendor/bin/ecs -c ecs.yaml check src tests --fix --ansi",
+		"test-coverage-html": "vendor/bin/tester tests/ -C --coverage coverage.html --coverage-src src/ ",
+		"test-unit": "vendor/bin/tester tests/Unit -C",
+		"test-integration": "vendor/bin/tester tests/Integration -C",
+		"orm-validate": "bin/console orm:validate-schema --ansi",
+		"clear": "rm -rf temp/cache/*",
+		"migration-migrate": "bin/console migrations:migrate --no-interaction",
+		"webpack": "yarn encore prod",
+		"webpack-dev": "yarn encore dev",
+		"webpack-prod": "PROD_HOST=1 yarn encore prod",
+		"webpack-dev-prod": "PROD_HOST=1 yarn encore dev",
+		"test-db-init": "php tests/Integration/DatabaseCreator.php",
+		"test": [
+			"@test-unit",
+			"@test-integration"
+		],
+		"test-local": [
+			"@test-db-init",
+			"@test"
+		],
+		"build-all": [
+			"@lint",
+			"@stan",
+			"@cs",
+			"@orm-validate",
+			"@test"
+		]
+	},
+	"autoload": {
+		"classmap": [
+			"src/Bootstrap.php",
+			"tests/Integration/Bootstrap.php"
+		],
+		"psr-4": {
+			"App\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"App\\": "src",
+			"Test\\": "tests"
+		}
+	},
+	"minimum-stability": "stable"
+}
