@@ -80,7 +80,7 @@ parameters:
 
     skip:
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-            -  'src/UI/Admin/Base/BootstrapFormRenderer.php'
+            -  'src/UI/Base/Control/BootstrapFormRenderer.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
-            - 'src/UI/Admin/Menu/MenuItem.php'
+            - 'src/UI/Base/Menu/MenuItem.php'

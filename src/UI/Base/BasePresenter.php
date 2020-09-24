@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types = 1);
-
+declare(strict_types=1);
 
 namespace App\UI\Base;
-
 
 use App\AppAdmin\CurrentAppAdminGetter;
 use App\UI\Base\Menu\MenuBuilder;
@@ -15,7 +13,6 @@ use Nette\Application\UI\InvalidLinkException;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\IHtmlString;
 
-
 abstract class BasePresenter extends Presenter
 {
 	/** @var string */
@@ -23,9 +20,9 @@ abstract class BasePresenter extends Presenter
 
 	protected ModalRendererControlFactory $modalRendererControlFactory;
 
-	private ?string $modalComponentName = null;
-
 	protected CurrentAppAdminGetter $currentAppAdminGetter;
+
+	private ?string $modalComponentName = null;
 
 	public function injectCurrentAppAdminGetter(CurrentAppAdminGetter $currentAppAdminGetter): void
 	{
@@ -83,11 +80,6 @@ abstract class BasePresenter extends Presenter
 		return array_merge([__DIR__ . '/templates/@layout.latte'], parent::formatLayoutTemplateFiles());
 	}
 
-	protected function createComponentModalRendererControl(): ModalRendererControl
-	{
-		return $this->modalRendererControlFactory->create();
-	}
-
 	/**
 	 * @param string[] $links
 	 * @throws InvalidLinkException
@@ -107,5 +99,10 @@ abstract class BasePresenter extends Presenter
 	{
 		$this->currentAppAdminGetter->logout();
 		$this->redirect('this');
+	}
+
+	protected function createComponentModalRendererControl(): ModalRendererControl
+	{
+		return $this->modalRendererControlFactory->create();
 	}
 }

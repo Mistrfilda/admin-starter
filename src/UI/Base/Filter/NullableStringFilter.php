@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Base\Filter;
 
-
 use App\UI\Base\Control\AdminDatagrid;
-
 
 class NullableStringFilter
 {

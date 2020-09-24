@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UI\Base\templates;
 
-
 use App\AppAdmin\AppAdmin;
 use App\UI\Base\BasePresenter;
 use App\UI\Base\Menu\MenuGroup;
