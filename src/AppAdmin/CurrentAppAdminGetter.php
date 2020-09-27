@@ -29,7 +29,7 @@ class CurrentAppAdminGetter
 			throw new AppAdminNotLoggedInException();
 		}
 
-		return $this->appAdminRepository->findById($this->user->getIdentity()->getId());
+		return $this->appAdminRepository->getById($this->user->getIdentity()->getId());
 	}
 
 	public function login(string $username, string $password): void

@@ -6,6 +6,7 @@ namespace App\AppAdmin;
 
 use App\Doctrine\BaseRepository;
 use App\Doctrine\NoEntityFoundException;
+use App\UI\Base\Control\IAdminDatagridRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
@@ -13,9 +14,9 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @extends BaseRepository<AppAdmin>
  */
-class AppAdminRepository extends BaseRepository
+class AppAdminRepository extends BaseRepository implements IAdminDatagridRepository
 {
-	public function findById(UuidInterface $appAdminId): AppAdmin
+	public function getById(UuidInterface $appAdminId): AppAdmin
 	{
 		$qb = $this->createQueryBuilder();
 

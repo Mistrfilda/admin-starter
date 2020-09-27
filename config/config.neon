@@ -37,6 +37,12 @@ extensions:
 webpackassets:
 	buildedAssetsDir: %wwwDir%/build
 
+custompresenterfactory:
+	presenterDir: %appDir%
+	customMapping:
+		AppAdminGrid: App\UI\AppAdmin\AppAdminGridPresenter
+		AppAdminForm: App\UI\AppAdmin\AppAdminFormPresenter
+		AppAdminRoleForm: App\UI\AppAdminRole\AppAdminRoleFormPresenter
 
 dbal:
 	debug:
@@ -120,12 +126,21 @@ services:
 	#Modal
 	- App\UI\Base\Modal\ModalRendererControlFactory
 
+	#Login
+	- App\UI\Login\Form\LoginFormFactory
+
 	#AppAdmin
 	- App\AppAdmin\AppAdminRepository(App\AppAdmin\AppAdmin)
 	- App\AppAdmin\AppAdminAuthenticator
 	- App\AppAdmin\AppAdminFacade
 	- App\AppAdmin\CurrentAppAdminGetter
 	- App\AppAdmin\Command\CreateAppAdminCommand
+	- App\AppAdmin\UI\Grid\AppAdminGridFactory
+	- App\AppAdmin\UI\Form\AppAdminFormFactory
 
-	#Login
-	- App\UI\Login\Form\LoginFormFactory
+	#AppAdminRole
+	- App\AppAdminRole\AppAdminRoleFacade
+	- App\AppAdminRole\AppAdminRoleRepository(App\AppAdminRole\AppAdminRole)
+	- App\AppAdminRole\AppAdminRoleService
+	- App\AppAdminRole\UI\Form\AppAdminRoleFormFactory
+	- App\AppAdminRole\Command\ProcessNewRolesCommand

@@ -7,13 +7,11 @@ namespace App\Doctrine;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
-trait Uuid
+trait SimpleUuid
 {
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="uuid", unique=true)
-	 * @ORM\GeneratedValue(strategy="CUSTOM")
-	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
 	private UuidInterface $id;
 

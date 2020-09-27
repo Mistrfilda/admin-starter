@@ -1,0 +1,14 @@
+{templateType App\UI\AppAdmin\templates\AppAdminGridTemplate}
+{block content}
+    <div class="d-flex justify-content-between">
+        <div>
+            <h1 class="h3 mb-2 text-gray-800">Users</h1>
+            <p class="mb-4"> List of all users</p>
+        </div>
+
+        <div>
+            <a n:href="AppAdminForm:edit" class="btn btn-primary">New user</a>
+        </div>
+    </div>
+    {control appAdminGrid}
+{/block}

@@ -63,7 +63,8 @@ class AppAdminFacade
 	public function updateAppAdmin(
 		UuidInterface $appAdminId,
 		string $name,
-		string $password
+		?string $password,
+		string $email
 	): AppAdmin {
 		$this->logger->info(
 			'Updating app admin',
@@ -74,11 +75,15 @@ class AppAdminFacade
 			]
 		);
 
-		$appAdmin = $this->appAdminRepository->findById($appAdminId);
+		$appAdmin = $this->appAdminRepository->getById($appAdminId);
 		$appAdmin->update(
 			$name,
-			$this->passwords->hash($password)
+			$email
 		);
+
+		if ($password !== null) {
+			$appAdmin->updatePassword($this->passwords->hash($password));
+		}
 
 		$this->entityManager->flush();
 		$this->entityManager->refresh($appAdmin);
