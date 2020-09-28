@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\UI\Base;
 
 use App\AppAdmin\CurrentAppAdminGetter;
+use App\Right\RightService;
 use App\UI\Base\Menu\MenuBuilder;
 use App\UI\Base\Modal\ModalRendererControl;
 use App\UI\Base\Modal\ModalRendererControlFactory;
 use LogicException;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\InvalidLinkException;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\IHtmlString;
@@ -22,6 +24,8 @@ abstract class BasePresenter extends Presenter
 
 	protected CurrentAppAdminGetter $currentAppAdminGetter;
 
+	protected RightService $rightService;
+
 	private ?string $modalComponentName = null;
 
 	public function injectCurrentAppAdminGetter(CurrentAppAdminGetter $currentAppAdminGetter): void
@@ -34,6 +38,11 @@ abstract class BasePresenter extends Presenter
 		$this->modalRendererControlFactory = $modalRendererControlFactory;
 	}
 
+	public function injectRightService(RightService $rightService): void
+	{
+		$this->rightService = $rightService;
+	}
+
 	public function startup(): void
 	{
 		parent::startup();
@@ -41,8 +50,19 @@ abstract class BasePresenter extends Presenter
 			$this->redirect('Login:default', ['backlink' => $this->storeRequest()]);
 		}
 
-		$this->template->appAdmin = $this->currentAppAdminGetter->getAppAdmin();
+		if (
+			$this->getRightForPresenter() !== null
+			&& $this->rightService->isUserAllowed(
+				$this->currentAppAdminGetter->getLoggedAppAdmin(),
+				$this->getRightForPresenter()
+			) === false
+		) {
+			throw new BadRequestException();
+		}
+
+		$this->template->appAdmin = $this->currentAppAdminGetter->getLoggedAppAdmin();
 		$this->template->menuItems = (new MenuBuilder())->buildMenu();
+		$this->template->rightService = $this->rightService;
 	}
 
 	public function showModal(
@@ -104,5 +124,10 @@ abstract class BasePresenter extends Presenter
 	protected function createComponentModalRendererControl(): ModalRendererControl
 	{
 		return $this->modalRendererControlFactory->create();
+	}
+
+	protected function getRightForPresenter(): ?string
+	{
+		return null;
 	}
 }

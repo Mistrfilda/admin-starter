@@ -8,7 +8,9 @@ class MenuGroup
 {
 	private string $label;
 
-	private bool $showLabel = true;
+	private bool $showLabel;
+
+	private ?string $right;
 
 	/** @var MenuItem[] */
 	private array $menuItems;
@@ -17,11 +19,12 @@ class MenuGroup
 	 * MenuGroup constructor.
 	 * @param MenuItem[] $menuItems
 	 */
-	public function __construct(string $label, bool $showLabel, array $menuItems)
+	public function __construct(string $label, bool $showLabel, ?string $right, array $menuItems)
 	{
 		$this->label = $label;
 		$this->showLabel = $showLabel;
 		$this->menuItems = $menuItems;
+		$this->right = $right;
 	}
 
 	public function getLabel(): string
@@ -40,5 +43,10 @@ class MenuGroup
 	public function getMenuItems(): array
 	{
 		return $this->menuItems;
+	}
+
+	public function getRight(): ?string
+	{
+		return $this->right;
 	}
 }

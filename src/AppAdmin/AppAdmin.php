@@ -115,4 +115,11 @@ class AppAdmin implements IEntity
 			$this->rights->removeElement($right);
 		}
 	}
+
+	public function hasRight(string $rightName): bool
+	{
+		return $this->rights->exists(function (int $key, Right $right) use ($rightName): bool {
+			return $right->getRight() === $rightName;
+		});
+	}
 }

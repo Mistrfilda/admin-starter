@@ -23,7 +23,7 @@ class CurrentAppAdminGetter
 		return $this->user->isLoggedIn();
 	}
 
-	public function getAppAdmin(): AppAdmin
+	public function getLoggedAppAdmin(): AppAdmin
 	{
 		if (! $this->isLoggedIn() || $this->user->getIdentity() === null) {
 			throw new AppAdminNotLoggedInException();

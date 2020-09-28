@@ -14,6 +14,8 @@ class MenuItem
 
 	private string $label;
 
+	private ?string $right;
+
 	/** @var MenuItem[] */
 	private array $childrens;
 
@@ -21,12 +23,19 @@ class MenuItem
 	 * MenuItem constructor.
 	 * @param MenuItem[] $childrens
 	 */
-	public function __construct(string $presenter, string $action, string $icon, string $label, array $childrens = [])
-	{
+	public function __construct(
+		string $presenter,
+		string $action,
+		string $icon,
+		string $label,
+		?string $right,
+		array $childrens = []
+	) {
 		$this->presenter = $presenter;
 		$this->action = $action;
 		$this->icon = $icon;
 		$this->label = $label;
+		$this->right = $right;
 		$this->childrens = $childrens;
 	}
 
@@ -75,6 +84,11 @@ class MenuItem
 	{
 		$condition = [];
 		return $this->getChildrenLinks($condition);
+	}
+
+	public function getRight(): ?string
+	{
+		return $this->right;
 	}
 
 	/**

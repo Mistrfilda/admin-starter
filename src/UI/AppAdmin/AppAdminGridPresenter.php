@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\AppAdmin;
 
 use App\AppAdmin\UI\Grid\AppAdminGridFactory;
+use App\Right\Right;
 use App\UI\AppAdmin\templates\AppAdminGridTemplate;
 use App\UI\Base\BasePresenter;
 use App\UI\Base\Control\AdminDatagrid;
@@ -25,5 +26,10 @@ class AppAdminGridPresenter extends BasePresenter
 	protected function createComponentAppAdminGrid(): AdminDatagrid
 	{
 		return $this->appAdminGridFactory->create();
+	}
+
+	protected function getRightForPresenter(): ?string
+	{
+		return Right::USERS;
 	}
 }

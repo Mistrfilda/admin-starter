@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\AppAdminRight;
 
+use App\Right\Right;
 use App\Right\UI\Form\AppAdminRightFormFactory;
 use App\UI\Base\BasePresenter;
 use App\UI\Base\Control\AdminForm;
@@ -37,5 +38,10 @@ class AppAdminRightFormPresenter extends BasePresenter
 		};
 
 		return $this->appAdminRoleFormFactory->create(Uuid::fromString($id), $onSuccess);
+	}
+
+	protected function getRightForPresenter(): ?string
+	{
+		return Right::RIGHTS;
 	}
 }

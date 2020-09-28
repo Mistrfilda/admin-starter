@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Base\Menu;
 
+use App\Right\Right;
+
 class MenuBuilder
 {
 	/**
@@ -12,11 +14,11 @@ class MenuBuilder
 	public function buildMenu(): array
 	{
 		return [
-			new MenuGroup('Dashboard', false, [
-				new MenuItem('Dashboard', 'default', 'fas fa-fw fa-tachometer-alt', 'Dashboard'),
+			new MenuGroup('Dashboard', false, null, [
+				new MenuItem('Dashboard', 'default', 'fas fa-fw fa-tachometer-alt', 'Dashboard', null),
 			]),
-			new MenuGroup('Users', true, [
-				new MenuItem('AppAdminGrid', 'default', 'fas fa-fw fa-users', 'Users'),
+			new MenuGroup('Users', true, Right::USERS, [
+				new MenuItem('AppAdminGrid', 'default', 'fas fa-fw fa-users', 'Users', Right::USERS),
 			]),
 		];
 	}

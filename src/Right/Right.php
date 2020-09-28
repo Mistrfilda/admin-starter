@@ -24,12 +24,12 @@ class Right implements IEntity
 
 	public const EDIT_USER = 'edit_user';
 
-	public const ROLES = 'roles';
+	public const RIGHTS = 'roles';
 
 	public const ALL = [
 		self::USERS,
 		self::EDIT_USER,
-		self::ROLES,
+		self::RIGHTS,
 	];
 
 	/**

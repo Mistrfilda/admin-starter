@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Base\templates;
 
 use App\AppAdmin\AppAdmin;
+use App\Right\RightService;
 use App\UI\AppAdmin\AppAdminGridPresenter;
 use App\UI\Base\Menu\MenuGroup;
 use Nette\Security\User;
@@ -35,4 +36,6 @@ class BaseTemplate
 
 	/** @var MenuGroup[] */
 	public array $menuItems;
+
+	public RightService $rightService;
 }

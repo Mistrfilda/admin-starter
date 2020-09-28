@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\AppAdmin;
 
 use App\AppAdmin\UI\Form\AppAdminFormFactory;
+use App\Right\Right;
 use App\UI\AppAdmin\templates\AppAdminFormTemplate;
 use App\UI\Base\BasePresenter;
 use App\UI\Base\Control\AdminForm;
@@ -57,5 +58,10 @@ class AppAdminFormPresenter extends BasePresenter
 		};
 
 		return $this->appAdminFormFactory->create(Uuid::fromString($id), $onSuccess);
+	}
+
+	protected function getRightForPresenter(): ?string
+	{
+		return Right::EDIT_USER;
 	}
 }

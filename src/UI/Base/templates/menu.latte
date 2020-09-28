@@ -11,6 +11,7 @@
     <hr class="sidebar-divider my-0">
 
     {foreach $menuItems as $menuGroup}
+        {continueIf $rightService->isUserAllowed($appAdmin, $menuGroup->getRight()) === false}
         {if $menuGroup->shouldShowLabel()}
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -19,6 +20,7 @@
         {/if}
 
         {foreach $menuGroup->getMenuItems() as $menuItem}
+            {continueIf $rightService->isUserAllowed($appAdmin, $menuItem->getRight()) === false}
             {if $menuItem->isNested()}
                 {var $isMenuLinkActive = $presenter->isMenuLinkActive($menuItem->getActiveLinks())}
                 <li n:class="nav-item, $isMenuLinkActive ? active">
@@ -32,6 +34,7 @@
                          aria-labelledby="headingTwo-{$iterator->getCounter()}" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             {foreach $menuItem->getChildrens() as $menuItemChildren}
+                                {continueIf $rightService->isUserAllowed($appAdmin, $menuItemChildren->getRight()) === false}
                                 <a n:class="collapse-item, $presenter->isLinkCurrent($menuItemChildren->getLink()) ? active" n:href="$menuItemChildren->getLink()">{$menuItemChildren->getLabel()}</a>
                             {/foreach}
                         </div>
