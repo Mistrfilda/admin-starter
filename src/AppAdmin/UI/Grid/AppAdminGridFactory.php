@@ -36,7 +36,7 @@ class AppAdminGridFactory
 			->setIcon('cog')
 			->setClass('btn btn-sm btn-success');
 
-		$grid->addAction('roles', 'Roles', 'AppAdminRoleForm:edit')
+		$grid->addAction('rights', 'Rights', 'AppAdminRightForm:edit')
 			->setIcon('list')
 			->setClass('btn btn-sm btn-info');
 

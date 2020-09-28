@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\AppAdmin;
 
-use App\AppAdminRole\AppAdminRole;
 use App\Doctrine\IEntity;
 use App\Doctrine\SimpleUuid;
+use App\Right\Right;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -41,10 +41,10 @@ class AppAdmin implements IEntity
 	private string $password;
 
 	/**
-	 * @var Collection<int, AppAdminRole>
-	 * @ORM\ManyToMany(targetEntity="App\AppAdminRole\AppAdminRole", inversedBy="users")
+	 * @var Collection<int, Right>
+	 * @ORM\ManyToMany(targetEntity="App\Right\Right", inversedBy="users")
 	 */
-	private Collection $roles;
+	private Collection $rights;
 
 	public function __construct(
 		string $name,
@@ -58,7 +58,7 @@ class AppAdmin implements IEntity
 		$this->email = $email;
 		$this->password = $password;
 
-		$this->roles = new ArrayCollection();
+		$this->rights = new ArrayCollection();
 	}
 
 	public function update(
@@ -95,24 +95,24 @@ class AppAdmin implements IEntity
 	}
 
 	/**
-	 * @return AppAdminRole[]
+	 * @return Right[]
 	 */
-	public function getRoles(): array
+	public function getRights(): array
 	{
-		return $this->roles->toArray();
+		return $this->rights->toArray();
 	}
 
-	public function addRole(AppAdminRole $appAdminRole): void
+	public function addRight(Right $right): void
 	{
-		if ($this->roles->contains($appAdminRole) === false) {
-			$this->roles->add($appAdminRole);
+		if ($this->rights->contains($right) === false) {
+			$this->rights->add($right);
 		}
 	}
 
-	public function removeRole(AppAdminRole $appAdminRole): void
+	public function removeRight(Right $right): void
 	{
-		if ($this->roles->contains($appAdminRole)) {
-			$this->roles->removeElement($appAdminRole);
+		if ($this->rights->contains($right)) {
+			$this->rights->removeElement($right);
 		}
 	}
 }

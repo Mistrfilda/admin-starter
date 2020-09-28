@@ -2,31 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\AppAdminRole\UI\Form;
+namespace App\Right\UI\Form;
 
 use App\AppAdmin\AppAdminRepository;
-use App\AppAdminRole\AppAdminRoleFacade;
-use App\AppAdminRole\AppAdminRoleRepository;
+use App\Right\RightFacade;
+use App\Right\RightRepository;
 use App\UI\Base\Control\AdminForm;
 use App\UI\Base\Control\AdminFormFactory;
 use Nette\Forms\Form;
 use Ramsey\Uuid\UuidInterface;
 
-class AppAdminRoleFormFactory
+class AppAdminRightFormFactory
 {
 	private AdminFormFactory $formFactory;
 
 	private AppAdminRepository $appAdminRepository;
 
-	private AppAdminRoleFacade $appAdminRoleFacade;
+	private RightFacade $appAdminRoleFacade;
 
-	private AppAdminRoleRepository $appAdminRoleRepository;
+	private RightRepository $appAdminRoleRepository;
 
 	public function __construct(
 		AdminFormFactory $formFactory,
 		AppAdminRepository $appAdminRepository,
-		AppAdminRoleFacade $appAdminRoleFacade,
-		AppAdminRoleRepository $appAdminRoleRepository
+		RightFacade $appAdminRoleFacade,
+		RightRepository $appAdminRoleRepository
 	) {
 		$this->formFactory = $formFactory;
 		$this->appAdminRepository = $appAdminRepository;
@@ -36,10 +36,10 @@ class AppAdminRoleFormFactory
 
 	public function create(UuidInterface $userId, callable $onSuccess): AdminForm
 	{
-		$form = $this->formFactory->create(AppAdminRoleFormValues::class);
+		$form = $this->formFactory->create(AppAdminRightFormValues::class);
 
 		$form->addCheckboxList('roles', 'Roles', $this->appAdminRoleRepository->findPairs());
-		$form->onSuccess[] = function (Form $form, AppAdminRoleFormValues $values) use ($userId, $onSuccess): void {
+		$form->onSuccess[] = function (Form $form, AppAdminRightFormValues $values) use ($userId, $onSuccess): void {
 			$this->process($userId, $values);
 			$onSuccess();
 		};
@@ -54,14 +54,14 @@ class AppAdminRoleFormFactory
 	{
 		$user = $this->appAdminRepository->getById($userId);
 		$defaults = [];
-		foreach ($user->getRoles() as $role) {
+		foreach ($user->getRights() as $role) {
 			$defaults['roles'][] = $role->getId();
 		}
 
 		$form->setDefaults($defaults);
 	}
 
-	private function process(UuidInterface $userId, AppAdminRoleFormValues $values): void
+	private function process(UuidInterface $userId, AppAdminRightFormValues $values): void
 	{
 		$this->appAdminRoleFacade->updateUserRoles(
 			$userId,

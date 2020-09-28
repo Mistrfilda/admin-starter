@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\AppAdminRole;
+namespace App\Right;
 
 use App\AppAdmin\AppAdmin;
 use App\Doctrine\IEntity;
@@ -14,33 +14,45 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="app_admin_role")
+ * @ORM\Table(name="admin_right")
  */
-class AppAdminRole implements IEntity
+class Right implements IEntity
 {
 	use SimpleUuid;
 
+	public const USERS = 'users';
+
+	public const EDIT_USER = 'edit_user';
+
+	public const ROLES = 'roles';
+
+	public const ALL = [
+		self::USERS,
+		self::EDIT_USER,
+		self::ROLES,
+	];
+
 	/**
-	 * @ORM\Column(type="string", unique=true)
+	 * @ORM\Column(type="string", unique=true, name="right_name")
 	 */
-	private string $role;
+	private string $right;
 
 	/**
 	 * @var Collection<int, AppAdmin>
-	 * @ORM\ManyToMany(targetEntity="App\AppAdmin\AppAdmin", mappedBy="roles")
+	 * @ORM\ManyToMany(targetEntity="App\AppAdmin\AppAdmin", mappedBy="rights")
 	 */
 	private Collection $users;
 
 	public function __construct(string $role)
 	{
 		$this->id = Uuid::uuid4();
-		$this->role = $role;
+		$this->right = $role;
 		$this->users = new ArrayCollection();
 	}
 
-	public function getRole(): string
+	public function getRight(): string
 	{
-		return $this->role;
+		return $this->right;
 	}
 
 	/**

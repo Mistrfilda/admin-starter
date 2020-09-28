@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\AppAdminRole\Command;
+namespace App\Right\Command;
 
-use App\AppAdminRole\AppAdminRoleFacade;
+use App\Right\RightFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ProcessNewRolesCommand extends Command
+class ProcessNewRightsCommand extends Command
 {
-	private AppAdminRoleFacade $appAdminRoleFacade;
+	private RightFacade $appAdminRoleFacade;
 
-	public function __construct(AppAdminRoleFacade $appAdminRoleFacade)
+	public function __construct(RightFacade $appAdminRoleFacade)
 	{
 		parent::__construct();
 		$this->appAdminRoleFacade = $appAdminRoleFacade;
@@ -22,7 +22,7 @@ class ProcessNewRolesCommand extends Command
 	protected function configure(): void
 	{
 		parent::configure();
-		$this->setName('user:roles:process');
+		$this->setName('user:rights:process');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int

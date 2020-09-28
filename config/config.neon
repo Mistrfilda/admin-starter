@@ -42,7 +42,7 @@ custompresenterfactory:
 	customMapping:
 		AppAdminGrid: App\UI\AppAdmin\AppAdminGridPresenter
 		AppAdminForm: App\UI\AppAdmin\AppAdminFormPresenter
-		AppAdminRoleForm: App\UI\AppAdminRole\AppAdminRoleFormPresenter
+		AppAdminRightForm: App\UI\AppAdminRight\AppAdminRightFormPresenter
 
 dbal:
 	debug:
@@ -138,9 +138,9 @@ services:
 	- App\AppAdmin\UI\Grid\AppAdminGridFactory
 	- App\AppAdmin\UI\Form\AppAdminFormFactory
 
-	#AppAdminRole
-	- App\AppAdminRole\AppAdminRoleFacade
-	- App\AppAdminRole\AppAdminRoleRepository(App\AppAdminRole\AppAdminRole)
-	- App\AppAdminRole\AppAdminRoleService
-	- App\AppAdminRole\UI\Form\AppAdminRoleFormFactory
-	- App\AppAdminRole\Command\ProcessNewRolesCommand
+	#Right
+	- App\Right\RightFacade
+	- App\Right\RightRepository(App\Right\Right)
+	- App\Right\RightService
+	- App\Right\UI\Form\AppAdminRightFormFactory
+	- App\Right\Command\ProcessNewRightsCommand

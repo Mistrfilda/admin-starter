@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\UI\AppAdminRole;
+namespace App\UI\AppAdminRight;
 
-use App\AppAdminRole\UI\Form\AppAdminRoleFormFactory;
+use App\Right\UI\Form\AppAdminRightFormFactory;
 use App\UI\Base\BasePresenter;
 use App\UI\Base\Control\AdminForm;
 use Nette\Application\BadRequestException;
 use Ramsey\Uuid\Nonstandard\Uuid;
 
-class AppAdminRoleFormPresenter extends BasePresenter
+class AppAdminRightFormPresenter extends BasePresenter
 {
-	private AppAdminRoleFormFactory $appAdminRoleFormFactory;
+	private AppAdminRightFormFactory $appAdminRoleFormFactory;
 
-	public function __construct(AppAdminRoleFormFactory $appAdminRoleFormFactory)
+	public function __construct(AppAdminRightFormFactory $appAdminRoleFormFactory)
 	{
 		parent::__construct();
 		$this->appAdminRoleFormFactory = $appAdminRoleFormFactory;
@@ -32,7 +32,7 @@ class AppAdminRoleFormPresenter extends BasePresenter
 		}
 
 		$onSuccess = function (): void {
-			$this->flashMessage('Roles updated');
+			$this->flashMessage('Rights updated');
 			$this->presenter->redirect('this');
 		};
 

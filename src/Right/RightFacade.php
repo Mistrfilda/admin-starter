@@ -2,34 +2,34 @@
 
 declare(strict_types=1);
 
-namespace App\AppAdminRole;
+namespace App\Right;
 
 use App\AppAdmin\AppAdminRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Throwable;
 
-class AppAdminRoleFacade
+class RightFacade
 {
 	private EntityManagerInterface $entityManager;
 
 	private AppAdminRepository $appAdminRepository;
 
-	private AppAdminRoleRepository $appAdminRoleRepository;
+	private RightRepository $rightRepository;
 
 	public function __construct(
 		EntityManagerInterface $entityManager,
 		AppAdminRepository $appAdminRepository,
-		AppAdminRoleRepository $appAdminRoleRepository
+		RightRepository $rightRepository
 	) {
 		$this->entityManager = $entityManager;
 		$this->appAdminRepository = $appAdminRepository;
-		$this->appAdminRoleRepository = $appAdminRoleRepository;
+		$this->rightRepository = $rightRepository;
 	}
 
-	public function create(string $role): AppAdminRole
+	public function create(string $role): Right
 	{
-		$role = new AppAdminRole($role);
+		$role = new Right($role);
 		$this->entityManager->persist($role);
 		$this->entityManager->flush();
 		$this->entityManager->refresh($role);
@@ -38,11 +38,11 @@ class AppAdminRoleFacade
 
 	public function processAll(): void
 	{
-		foreach (Role::ALL as $role) {
+		foreach (Right::ALL as $role) {
 			try {
-				$this->appAdminRoleRepository->getByRole($role);
+				$this->rightRepository->getByRole($role);
 			} catch (Throwable $e) {
-				$role = new AppAdminRole($role);
+				$role = new Right($role);
 				$this->entityManager->persist($role);
 			}
 		}
@@ -57,15 +57,15 @@ class AppAdminRoleFacade
 	public function updateUserRoles(UuidInterface $userId, array $values): void
 	{
 		$user = $this->appAdminRepository->getById($userId);
-		$roles = $this->appAdminRoleRepository->findAll();
+		$roles = $this->rightRepository->findAll();
 
 		foreach ($roles as $role) {
 			if (in_array($role->getId()->toString(), $values, true)) {
 				$role->addUser($user);
-				$user->addRole($role);
+				$user->addRight($role);
 			} else {
 				$role->removeUser($user);
-				$user->removeRole($role);
+				$user->removeRight($role);
 			}
 		}
 
@@ -79,10 +79,10 @@ class AppAdminRoleFacade
 	public function addRolesToUser(UuidInterface $userId, array $roles): void
 	{
 		$user = $this->appAdminRepository->getById($userId);
-		$roles = $this->appAdminRoleRepository->findByRoles($roles);
+		$roles = $this->rightRepository->findByRoles($roles);
 		foreach ($roles as $role) {
 			$role->addUser($user);
-			$user->addRole($role);
+			$user->addRight($role);
 		}
 
 		$this->entityManager->flush();
